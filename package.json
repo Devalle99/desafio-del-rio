@@ -1,0 +1,21 @@
+{
+  "name": "juego_mental",
+  "version": "1.0.0",
+  "description": "Adaptación del acertijo del lobo, la cabra y la col.",
+  "main": "index.html",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "logic",
+    "game",
+    "mental",
+    "riddle"
+  ],
+  "author": "David Vallejo",
+  "license": "MIT",
+  "dependencies": {
+    "pixi.js": "^8.1.4"
+  }
+}
