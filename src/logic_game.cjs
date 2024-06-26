@@ -45,15 +45,16 @@ class Game {
         const current_set = this.player_position ? this.set_2 : this.set_1;
         const other_set = !this.player_position ? this.set_2 : this.set_1;
         let _done = false;
-        let validMove = true;
         this.player_position = !this.player_position;
 
         if (movable_object === 0) {
-
             if (this.has_lost()) {
                 _done = true;
             }
-        } else if (current_set.has(movable_object)) {
+            return _done;
+        }
+
+        if (current_set.has(movable_object)) {
             current_set.delete(movable_object);
             other_set.add(movable_object);
 
@@ -65,12 +66,10 @@ class Game {
             }
         } else {
             console.log('Ese personaje no se encuentra en esta orilla del rio');
-            validMove = false;
         }
 
-        this.done = _done;
-        return validMove;
+        return _done;
     }
 }
 
-export default Game;
+module.exports = Game;
