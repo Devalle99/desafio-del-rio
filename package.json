@@ -5,7 +5,8 @@
   "main": "index.html",
   "type": "module",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "http-server .\\src\\  -p 9000 -c-1"
   },
   "keywords": [
     "logic",

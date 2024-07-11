@@ -1,5 +1,5 @@
 body {
-  font-family: "Righteous", sans-serif;
+  font-family: "Righteous", sans-serif !important;
 }
 
 body,
@@ -24,4 +24,21 @@ canvas {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.main-menu {
+  background-color: rgba(255, 247, 233, 0.834);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border: 1px solid #000;
+  border-radius: 30px;
+  color: rgb(32, 27, 19);
+}
+
+.pointer {
+  cursor: pointer;
+  color: rgb(9, 74, 161);
 }
