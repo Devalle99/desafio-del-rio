@@ -5,6 +5,33 @@ class Game {
         this.player_position = false; // false means left side, true means right side
         this.done = false;
         this.hasWon = false;
+
+        // Timer properties
+        this.startTime = Date.now();
+        this.elapsedTime = 0;
+        this.timerInterval = null;
+    }
+
+    startTimer() {
+        this.startTime = Date.now() - this.elapsedTime;
+        this.timerInterval = setInterval(() => {
+            this.elapsedTime = Date.now() - this.startTime;
+        }, 1000);
+    }
+
+    getElapsedTime() {
+        return Math.floor(this.elapsedTime / 1000);
+    }
+
+    pauseTimer() {
+        clearInterval(this.timerInterval);
+        this.timerInterval = null;
+    }
+
+    resumeTimer() {
+        if (!this.timerInterval) {
+            this.startTimer();
+        }
     }
 
     has_lost() {

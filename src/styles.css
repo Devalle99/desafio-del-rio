@@ -38,6 +38,32 @@ canvas {
   color: rgb(32, 27, 19);
 }
 
+.game-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgba(255, 247, 233, 0.834);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border: 1px solid #000;
+  border-radius: 30px;
+  color: rgb(32, 27, 19);
+}
+
+.game-controls {
+  background-color: rgba(0, 0, 0, 0);
+  position: fixed;
+  top: 10%;
+  left: 90%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  width: 30%;
+}
+
 .pointer {
   cursor: pointer;
   color: rgb(9, 74, 161);

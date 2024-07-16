@@ -1,5 +1,5 @@
 import Game from './logic.js';
-let GAME;
+let GAME = null;
 
 // Declare routes to static files
 const img_bg = './assets/bg.jpg';
@@ -266,11 +266,40 @@ const score_board_btn = $('#scoreboard');
 
 new_game_btn.click(() => {
     $('#main-menu').hide();
+    $('#game-controls').show();
     GAME = new Game();
+    GAME.startTimer();
     resetScenario();
     changeObjectsVisibility(true);
 });
 
-// At the outset of the program execution
-changeObjectsVisibility(false);
+// In-game event listeners
+$('#show-game-menu').click(() => {
+    changeObjectsVisibility(false);
+    $('#game-controls').hide();
+    $('#game-menu').show();
+});
 
+
+// Exit button which is inside game menu
+$('#exit').click(() => {
+    GAME.pauseTimer();
+    changeObjectsVisibility(false);
+    $('#game-menu').hide();
+    $('#main-menu').show();
+});
+
+// Resume button which is inside game menu
+$('#resume').click(() => {
+    GAME.resumeTimer();
+    changeObjectsVisibility(true);
+    $('#game-controls').show();
+    $('#game-menu').hide();
+});
+
+// At the outset of the program execution
+$(document).ready(function() {
+    changeObjectsVisibility(false);
+    $('#game-controls').hide();
+    $('#game-menu').hide();
+});
