@@ -1,5 +1,7 @@
 import Game from './logic.js';
-let GAME = null;
+import { processScore, openDatabase, getAllScores } from './indexedDB.js';
+
+let GAME = new Game();
 
 // Declare routes to static files
 const img_bg = './assets/bg.jpg';
@@ -133,9 +135,6 @@ app.stage.addChild(wolf);
 app.stage.addChild(goat);
 app.stage.addChild(cabbage);
 
-// Initialize scenario
-resetScenario();
-
 // Function to move sprite from one point to another
 function moveSprite(sprite, from, to, callback) {
     let startTime = Date.now();
@@ -203,15 +202,29 @@ function onObjectClick(objNumber) {
     }
 }
 
+const winMessage = '¡Grandioso! Has ganado';
+const loseMessage = 'Qué lástima, has perdido';
+
 function checkGameState() {
     // Check if game is over
     if (GAME.done) {
         if (GAME.hasWon) {
-            alert('Has ganado');
+            processScore(GAME.elapsedTime, GAME.counter)
+            .then(() => {
+                console.log('Puntuación procesada exitosamente.');
+            })
+            .catch((error) => {
+                console.error('Error al procesar la puntuación:', error);
+            });
+            $('#final-message').html(winMessage);
+            $('#summary').show();
         } else {
-            alert('Has perdido');
+            $('#final-message').html(loseMessage);
+            $('#summary').show();
         }
-        GAME = new Game();
+        GAME.pauseTimer();
+        $('#game-controls').hide();
+        changeObjectsVisibility(false);
         resetScenario();
     }
 }
@@ -260,26 +273,82 @@ cabbage.on('pointertap', (event) => {
     onObjectClick(1);
 });
 
-// Event listeners for main menu
-const new_game_btn = $('#new-game');
-const score_board_btn = $('#scoreboard');
+// Functions to manipulate score table
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
 
-new_game_btn.click(() => {
+async function updateScoreTable() {
+    const db = await openDatabase();
+    const allScores = await getAllScores(db);
+
+    // Ordenar por tiempo y luego por movimientos
+    allScores.sort((a, b) => {
+        if (a.time === b.time) {
+            return a.moves - b.moves;
+        }
+        return a.time - b.time;
+    });
+
+    const tableBody = document.querySelector('#score-table tbody');
+    const rows = tableBody.querySelectorAll('tr');
+
+    allScores.slice(0, 5).forEach((score, index) => {
+        const row = rows[index];
+        row.cells[1].textContent = formatTime(score.time);
+        row.cells[2].textContent = score.moves;
+        row.cells[3].textContent = new Date(score.date).toLocaleString();
+    });
+}
+
+// Event listeners for main menu
+$('#go-to-scoreboard').click(async () => {
+    $('#main-menu').hide();
+    await updateScoreTable();
+    $('#score-table-container').show();
+});
+
+$('#new-game').click(() => {
+    let flag = GAME.elapsedTime !== 0;
     $('#main-menu').hide();
     $('#game-controls').show();
-    GAME = new Game();
-    GAME.startTimer();
+    GAME.resetGame();
+    GAME.startTime = Date.now();
+    if (flag) {
+        $('#timer')[0].textContent = 'Tiempo 00:00';
+        GAME.resumeTimer();
+    } else {
+        GAME.startTimer();
+    }
+    
     resetScenario();
     changeObjectsVisibility(true);
 });
 
+// Score board event listener
+$('#return-to-menu').click(() => {
+    $('#score-table-container').hide();
+    $('#main-menu').show();
+});
+
 // In-game event listeners
 $('#show-game-menu').click(() => {
+    GAME.pauseTimer();
     changeObjectsVisibility(false);
     $('#game-controls').hide();
     $('#game-menu').show();
 });
 
+// Continue button after winning game
+$('#continue').click(() => {
+    GAME.pauseTimer();
+    changeObjectsVisibility(false);
+    $('#summary').hide();
+    $('#game-menu').hide();
+    $('#main-menu').show();
+});
 
 // Exit button which is inside game menu
 $('#exit').click(() => {
@@ -299,7 +368,14 @@ $('#resume').click(() => {
 
 // At the outset of the program execution
 $(document).ready(function() {
+    // Initialize objects' points
+    resetScenario();
+    // Hide objects
     changeObjectsVisibility(false);
+
     $('#game-controls').hide();
     $('#game-menu').hide();
+    $('#score-table-container').hide();
+    $('#summary').hide();
+    // $('#main-menu').hide();
 });

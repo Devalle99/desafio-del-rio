@@ -23,9 +23,13 @@
   <body>
     <div id="pixi_container"></div>
 
+    <button id="music-button">🔇</button>
+
     <!-- Show game menu -->
     <div id="game-controls" class="game-controls">
-      <button id="show-game-menu" class="btn btn-primary pointer mx-2 shadow-lg" type="button">Menú</button>
+      <button id="show-game-menu" class="btn btn-primary pointer mx-1 shadow-lg" type="button">Menú</button>
+      <span id="timer" class="badge bg-danger mx-1">Tiempo 00:00</span>
+      <span id="counter" class="badge bg-success mx-1">0 Movimientos</span>
     </div>
 
     <!-- In-game menu -->
@@ -41,13 +45,76 @@
         <h5 class="card-text text-center mx-5">Debes cruzar el <strong>lobo</strong>, la <strong>cabra</strong> y la <strong>col</strong> a la otra orilla del río para ganar la partida. Ten cuidado, el 🐺 se puede comer a la 🐐; y la 🐐 se puede comer a la 🥬.</h5>
         <div class="d-flex justify-content-evenly mt-4">
           <p id="new-game" class="card-link text-decoration-underline pointer">PARTIDA NUEVA</p>
-          <p id="scoreboard" class="card-link text-decoration-underline pointer">TABLA DE PUNTUACIONES</p>
+          <p id="go-to-scoreboard" class="card-link text-decoration-underline pointer">TABLA DE PUNTUACIONES</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Highscore board -->
+    <div id="score-table-container" class="card" style="width: 18rem;">
+      <div class="card-body score-table-container">
+        <h3 class="card-title text-center">Las puntuaciones más altas</h5>
+        <table id="score-table" class="table">
+          <thead>
+            <tr>
+              <th scope="col">🏆</th>
+              <th scope="col">Tiempo</th>
+              <th scope="col">Movimientos</th>
+              <th scope="col">Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <th scope="row">4</th>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <th scope="row">5</th>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-evenly">
+          <p id="return-to-menu" class="card-link text-decoration-underline pointer">Regresar al menú</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game summary modal -->
+    <div class="card" style="width: 18rem;">
+      <div id="summary" class="card-body main-menu">
+        <h3 id="final-message" class="card-title text-center"></h5>
+        <div class="d-flex justify-content-evenly mt-4">
+          <p id="continue" class="card-link text-decoration-underline pointer">Continuar</p>
         </div>
       </div>
     </div>
 
     <script src="https://pixijs.download/release/pixi.min.js"></script>
     <script type="module" src="index.js"></script>
+    <script src="music.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
   </body>

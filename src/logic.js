@@ -10,13 +10,42 @@ class Game {
         this.startTime = Date.now();
         this.elapsedTime = 0;
         this.timerInterval = null;
+        // DOM element to display elapsed time
+        this.elapsedTimeElement = document.getElementById('timer');
+
+        // Counter property
+        this.counter = 0;
+        // DOM element to display counter
+        this.counterElement = document.getElementById('counter');
+    }
+
+    resetGame() {
+        this.set_1 = new Set([3, 2, 1]);
+        this.set_2 = new Set();
+        this.player_position = false; // false means left side, true means right side
+        this.done = false;
+        this.hasWon = false;
+        this.counter = 0;
+        this.elapsedTime = 0;
+        this.timerInterval = null;
+        $('#counter')[0].textContent = `0 Movimientos`;
     }
 
     startTimer() {
         this.startTime = Date.now() - this.elapsedTime;
         this.timerInterval = setInterval(() => {
             this.elapsedTime = Date.now() - this.startTime;
+            this.updateElapsedTimeDisplay();
         }, 1000);
+    }
+
+    updateElapsedTimeDisplay() {
+        if (this.elapsedTimeElement) {
+            let rawSeconds = Math.floor(this.elapsedTime / 1000);
+            let minutes = Math.floor(rawSeconds / 60);
+            let seconds = rawSeconds % 60;
+            this.elapsedTimeElement.textContent = `Tiempo ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
     }
 
     getElapsedTime() {
@@ -69,6 +98,8 @@ class Game {
     }
 
     move(movable_object) {
+        this.counter += 1;
+        this.counterElement.textContent = `${this.counter} Movimientos`;
         const current_set = this.player_position ? this.set_2 : this.set_1;
         const other_set = !this.player_position ? this.set_2 : this.set_1;
         let _done = false;

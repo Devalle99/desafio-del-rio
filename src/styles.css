@@ -38,6 +38,18 @@ canvas {
   color: rgb(32, 27, 19);
 }
 
+.score-table-container {
+  background-color: rgba(255, 247, 233, 0.834);
+  position: fixed;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border: 1px solid #000;
+  border-radius: 30px;
+  color: rgb(32, 27, 19);
+}
+
 .game-menu {
   display: flex;
   align-items: center;
@@ -58,13 +70,44 @@ canvas {
   background-color: rgba(0, 0, 0, 0);
   position: fixed;
   top: 10%;
-  left: 90%;
+  left: 80%;
   transform: translate(-50%, -50%);
   padding: 20px;
   width: 30%;
 }
 
+.game-controls > * {
+  border: 1px solid rgb(47, 47, 47);
+}
+
+button#show-game-menu {
+  border: 1px solid rgb(47, 47, 47);
+}
+
 .pointer {
   cursor: pointer;
   color: rgb(9, 74, 161);
+}
+
+span.badge {
+  padding: 12px;
+  font-size: large;
+}
+
+button#show-game-menu {
+  font-size: larger;  
+}
+
+#music-button {
+  position: fixed;
+  padding: 0 5px;
+  top: 8%;
+  left: 10%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  cursor: pointer;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid black;
+  border-radius: 30%;
+  outline: none;
 }
